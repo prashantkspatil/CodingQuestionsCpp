@@ -17,6 +17,9 @@ class solutions {
     int factorialUsingRecursion(int num);
     int findTheSecondLargestNumber(int *arr, int length);
     int sumOfDigitsInNumber(int num);
+    int findTheMissingNumberInArray(int *arr, int length);
+    bool checkIfTwoStringsAreAnagram(string str1, string str2);
+    vector<int> flattenAListOfIntegers(vector<vector<int>> arr);
 };
 
 #endif //CODINGQUESTIONS_SOLUTIONS_H

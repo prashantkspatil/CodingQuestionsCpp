@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 #include "solutions.h"
 
 using namespace std;
@@ -104,4 +105,33 @@ int solutions::sumOfDigitsInNumber(int num) {
         num = num / 10;
     }
     return sum;
+}
+
+int solutions::findTheMissingNumberInArray(int *arr, int length) {
+    int total_sum = (length + 1) * (length + 2) / 2;
+    int arr_sum = 0;
+    for (int i = 0; i < length; i++) {
+        arr_sum += arr[i];
+    }
+    return total_sum - arr_sum;
+}
+
+bool solutions::checkIfTwoStringsAreAnagram(std::string str1, std::string str2) {
+    if(str1.length() != str2.length()) {
+        return false;
+    }
+    std::sort(str1.begin(), str1.end());
+    std::sort(str2.begin(), str2.end());
+
+    return str1 == str2;
+}
+
+vector<int> solutions::flattenAListOfIntegers(vector<vector<int>> arr) {
+    vector<int> flattened_arr;
+    for (auto & i : arr) {
+        for (int j : i) {
+            flattened_arr.push_back(j);
+        }
+    }
+    return flattened_arr;
 }

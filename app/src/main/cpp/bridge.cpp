@@ -130,3 +130,59 @@ Java_pp_codingquestionscpp_JniCall_sumOfDigitsInNumber (
     char result = solutions().sumOfDigitsInNumber(input);
     return result;
 }
+
+extern "C" JNIEXPORT jint JNICALL
+Java_pp_codingquestionscpp_JniCall_findTheMissingNumberInArray (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jintArray input
+) {
+    jsize length = env->GetArrayLength(input);
+    jint *j_arr = env->GetIntArrayElements(input, nullptr);
+    if (j_arr == nullptr) {
+        return -1;
+    }
+    int result = solutions().findTheMissingNumberInArray(j_arr, length);
+    return result;
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_pp_codingquestionscpp_JniCall_checkIfTwoStringsAreAnagram (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jstring input1,
+        jstring input2
+) {
+    string str1 = env->GetStringUTFChars(input1, nullptr);
+    string str2 = env->GetStringUTFChars(input2, nullptr);
+    int result = solutions().checkIfTwoStringsAreAnagram(str1, str2);
+    return result;
+}
+
+extern "C" JNIEXPORT jintArray JNICALL
+Java_pp_codingquestionscpp_JniCall_flattenAListOfIntegers (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jobjectArray objArr
+) {
+    vector<vector<int>> arr;
+
+    auto length = env->GetArrayLength(objArr);
+    for (int i = 0; i < length; i++) {
+        jobject innerArr = env->GetObjectArrayElement(objArr, i);
+        jint *j_arr = env->GetIntArrayElements((jintArray)innerArr, nullptr);
+        if (j_arr == nullptr) {
+            return nullptr;
+        }
+        vector<int> inner_vector;
+        for (int j = 0; j < length; j++) {
+            inner_vector.push_back(j_arr[j]);
+        }
+        arr.push_back(inner_vector);
+    }
+    vector<int> result = solutions().flattenAListOfIntegers(arr);
+
+    jintArray result_array = env->NewIntArray(result.size());
+    env->SetIntArrayRegion(result_array, 0, result.size(), result.data());
+    return result_array;
+}
