@@ -135,3 +135,47 @@ vector<int> solutions::flattenAListOfIntegers(vector<vector<int>> arr) {
     }
     return flattened_arr;
 }
+
+bool solutions::checkIfNumberIsPrime(int num) {
+    int num_sqrt = sqrt((double)num);
+    for (int i = 2; i <= num_sqrt; i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+vector<int> solutions::findCommonElementInTwoArray(vector<int> arr1, vector<int> arr2) {
+    vector<int> common_arr;
+    for (int i : arr1) {
+        for (int j : arr2) {
+            if (i == j) {
+                common_arr.push_back(i);
+            }
+        }
+    }
+    return common_arr;
+}
+
+vector<string> solutions::sortAListOfStringByItsLengths(vector<string> stringList) {
+    vector<string> copy_stringList(stringList.begin(), stringList.end());
+    std::sort(copy_stringList.begin(), copy_stringList.end(),
+              [](const string& a, const string& b) {
+                    return a.length() < b.length();
+                });
+    return copy_stringList;
+}
+
+string solutions::findTheLargestPalindromeInAString(string str) {
+    string largest_palindrome = "";
+    for (int i = 0; i < str.length(); i++) {
+        for (int j = i + 1; j <= str.length(); j++) {
+            string sub_str = str.substr(i, j - i);
+            if (check_for_palindrome(sub_str) && sub_str.length() > largest_palindrome.length()) {
+                largest_palindrome = sub_str;
+            }
+        }
+    }
+    return largest_palindrome;
+}

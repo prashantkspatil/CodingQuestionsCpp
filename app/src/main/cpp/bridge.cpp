@@ -186,3 +186,82 @@ Java_pp_codingquestionscpp_JniCall_flattenAListOfIntegers (
     env->SetIntArrayRegion(result_array, 0, result.size(), result.data());
     return result_array;
 }
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_pp_codingquestionscpp_JniCall_checkIfNumberIsPrime (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jint input
+) {
+    bool result = solutions().checkIfNumberIsPrime(input);
+    return result;
+}
+
+extern "C" JNIEXPORT jintArray JNICALL
+Java_pp_codingquestionscpp_JniCall_findCommonElementInTwoArray (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jintArray input1,
+        jintArray input2
+) {
+    jsize length1 = env->GetArrayLength(input1);
+    jint *j_arr1 = env->GetIntArrayElements(input1, nullptr);
+    if (j_arr1 == nullptr) {
+        return nullptr;
+    }
+    jsize length2 = env->GetArrayLength(input2);
+    jint *j_arr2 = env->GetIntArrayElements(input2, nullptr);
+    if (j_arr2 == nullptr) {
+        return nullptr;
+    }
+    vector<int> vec1;
+    vector<int> vec2;
+
+    vec1.insert(vec1.end(), j_arr1, j_arr1 + length1);
+    vec2.insert(vec2.end(), j_arr2, j_arr2 + length2);
+    vector<int> result = solutions().findCommonElementInTwoArray(vec1, vec2);
+    jintArray result_array = env->NewIntArray(result.size());
+    env->SetIntArrayRegion(result_array, 0, result.size(), result.data());
+    return result_array;
+}
+
+extern "C" JNIEXPORT jobject JNICALL
+Java_pp_codingquestionscpp_JniCall_sortAListOfStringByItsLengths (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jobject input
+) {
+    jclass stringListClass = env->GetObjectClass(input);
+    jmethodID size_method = env->GetMethodID(stringListClass, "size", "()I");
+    jint j_size = env->CallIntMethod(input, size_method);
+    vector<string> stringList;
+    jmethodID get_method = env->GetMethodID(stringListClass, "get", "(I)Ljava/lang/Object;");
+
+    for (int i = 0; i < j_size; i++) {
+        jobject j_string = env->CallObjectMethod(input, get_method, i);
+        string c_string = env->GetStringUTFChars((jstring) j_string, nullptr);
+        stringList.push_back(c_string);
+    }
+    vector<string> result = solutions().sortAListOfStringByItsLengths(stringList);
+
+    jclass arraylist_class = env->FindClass("java/util/ArrayList");
+    jobject arraylist = env->NewObject(arraylist_class, env->GetMethodID(arraylist_class, "<init>", "()V"));
+    jmethodID add_method = env->GetMethodID(arraylist_class, "add", "(Ljava/lang/Object;)Z");
+    for(string s : result) {
+        env->CallBooleanMethod(arraylist, add_method, env->NewStringUTF(s.c_str()));
+    }
+
+    return arraylist;
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_pp_codingquestionscpp_JniCall_findTheLargestPalindromeInAString (
+        JNIEnv* env,
+        jobject /* this */ obj,
+        jstring input
+) {
+    std::string c_str = env->GetStringUTFChars(input, nullptr);
+
+    string result = solutions().findTheLargestPalindromeInAString(c_str);
+    return env->NewStringUTF(result.c_str());
+}

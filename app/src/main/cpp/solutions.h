@@ -20,6 +20,10 @@ class solutions {
     int findTheMissingNumberInArray(int *arr, int length);
     bool checkIfTwoStringsAreAnagram(string str1, string str2);
     vector<int> flattenAListOfIntegers(vector<vector<int>> arr);
+    bool checkIfNumberIsPrime(int num);
+    vector<int> findCommonElementInTwoArray(vector<int> arr1, vector<int> arr2);
+    vector<string> sortAListOfStringByItsLengths(vector<string> stringList);
+    string findTheLargestPalindromeInAString(string str);
 };
 
 #endif //CODINGQUESTIONS_SOLUTIONS_H
